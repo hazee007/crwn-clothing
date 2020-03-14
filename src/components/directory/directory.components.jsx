@@ -12,7 +12,7 @@ class Directory extends React.Component {
                 title: 'hats',
                 imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
                 id: 1,
-                linkUrl: 'shop/hats'
+                linkUrl: 'hats'
             },
             {
                 title: 'jackets',
@@ -48,8 +48,10 @@ class Directory extends React.Component {
         return (
         <div className='directory-menu'>
             {
-            this.state.sections.map(({title, imageUrl, id, size}) =>(  //disctructuring the section so as to pass the properties to the menu-item 
-                <MenuItem key={id} title = {title}  imageUrl ={imageUrl} size = {size}/>   
+            // this.state.sections.map(({title, imageUrl, id, size}) =>(  //disctructuring the section so as to pass the properties to the menu-item 
+            //     <MenuItem key={id} title = {title}  imageUrl ={imageUrl} size = {size}/> 
+            this.state.sections.map(({id, ...otherSectionProps}) =>(  //ES6  thrick.... spreading all of the values together other than id because we are not passing id.
+            <MenuItem key={id} {...otherSectionProps}/>   
             ))}
         </div>
 
