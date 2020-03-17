@@ -14,6 +14,33 @@ const config = {
     measurementId: "G-BQN600M9NF"
   };
 
+  // Take uid gotten from googleapi and save into our firebase db
+  export const createUserProfileDocument = async(userAuth, additionalData) => {
+    if (!userAuth) return;
+
+    // query firestor for userAuth document to see if it already exist
+    const userRef = firestore.doc(`users/${userAuth.uid}`);
+    const snapShot = await userRef.get();
+
+    if(!snapShot.exists){
+       const {displayName, email} = userAuth;
+       const createAt = new Date();
+
+       try{
+         await userRef.set({
+           displayName,
+           email,
+           createAt,
+           ...additionalData
+         })
+       }catch(error){
+          console.log('error creating user', error.message);
+       }
+    }
+
+    return userRef;
+  }
+
 
   firebase.initializeApp(config);
 
