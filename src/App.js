@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import HomePage from './pages/homepage/homepage.components';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
@@ -48,15 +48,20 @@ class App extends React.Component {
         <Switch>
         <Route exact path='/' component={HomePage} />
         <Route  path='/shop' component={ShopPage} />
-        <Route  path='/signin' component={SignInAndSignUpPage} />
+        <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to ='/' />) : (<SignInAndSignUpPage />)} />  
+        {/* //base on currentUser go to sign up page or go to home page */}
         </Switch>
       </div>
     );
   }
 }
 
-const mapDispatchToProps = dispatch =>({
+const mapStateToProps = ({user}) =>({
+  currentUser:user.currentUser
+})                   //we get the state of the user to know if the user is logged in, if so we dont want them  to be able to access the singin page
+
+const mapDispatchToProps = dispatch =>({  //Dispatch setCurrentUser to the user.action which then triggers the user reducers and this eliminate the use of this.state from app.js
   setCurrentUser: user => dispatch(setCurrentUser(user))
 })
 
-export default connect(null, mapDispatchToProps) (App);
+export default connect(mapStateToProps , mapDispatchToProps) (App);
