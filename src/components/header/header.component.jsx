@@ -3,6 +3,7 @@ import './header.style.scss'
 import { Link } from 'react-router-dom';
 import {auth} from '../../firebase/firebase.utils';
 import {ReactComponent as Logo} from '../../assets/crown.svg';
+import { connect } from 'react-redux';
 
 
 
@@ -28,6 +29,9 @@ const Header = ({currentUser})=>(
     </div>
 );
 
+const mapStateToProps = state =>({   //Making the reducer to upadate the header insteadnof the state in app.js
+     currentUser: state.user.currentUser
+})
 
-export default Header; 
+export default connect(mapStateToProps) (Header); 
 
