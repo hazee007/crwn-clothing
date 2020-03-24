@@ -6,6 +6,9 @@ import {ReactComponent as Logo} from '../../assets/crown.svg';
 import { connect } from 'react-redux';
 import CartIcon from '../cart-icon/cart-icon.components';
 import CartDropDown from '../cart-dropdown/cart-dropdown.components';
+import {createStructuredSelector} from 'reselect';
+import { selectCurrentUser } from '../../redux/user/user.selector';
+import { selectCartHidden } from '../../redux/cart/cart.selectors';
 
 
 
@@ -38,9 +41,14 @@ const Header = ({currentUser, hidden})=>(
 //      currentUser: state.user.currentUser
 // })
 
-const mapStateToProps = ({user:{currentUser}, cart:{hidden}}) =>({   //2nd getting the toggle state of cart from reducer by disctructuring
-    currentUser,
-    hidden
+// const mapStateToProps = ({user:{currentUser}, cart:{hidden}}) =>({   //2nd getting the toggle state of cart from reducer by disctructuring
+//     currentUser,
+//     hidden
+// }); 
+
+const mapStateToProps = createStructuredSelector({   //3rd using reselector
+    currentUser: selectCurrentUser,
+    hidden: selectCartHidden
 }); 
 
 export default connect(mapStateToProps) (Header); 

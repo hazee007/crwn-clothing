@@ -1,16 +1,23 @@
 import React from 'react';
 import './App.css';
+
 import HomePage from './pages/homepage/homepage.components';
-import { Route, Switch, Redirect } from 'react-router-dom';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import CheckoutPage from './pages/checkout/checkout.components';
+
+
+import { Route, Switch, Redirect } from 'react-router-dom';
 import {auth, createUserProfileDocument} from './firebase/firebase.utils';
 import { connect } from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions'
+import {createStructuredSelector} from 'reselect';
+import { selectCurrentUser } from './redux/user/user.selector';
 
 
-class App extends React.Component {
+
+class App extends React.Component { 
   
 
   unsubscribeFromAuth = null
@@ -50,15 +57,16 @@ class App extends React.Component {
         <Route  path='/shop' component={ShopPage} />
         <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to ='/' />) : (<SignInAndSignUpPage />)} />  
         {/* //base on currentUser go to sign up page or go to home page */}
+        <Route  exact path='/checkout' component={CheckoutPage}/>
         </Switch>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({user}) =>({
-  currentUser:user.currentUser
-})                   //we get the state of the user to know if the user is logged in, if so we dont want them  to be able to access the singin page
+const mapStateToProps = createStructuredSelector({
+  currentUser:selectCurrentUser
+})                   //we get the state of the user to know if the user is logged in, if so we dont want them  to be able to access the singin page and also using reselect for optimization
 
 const mapDispatchToProps = dispatch =>({  //Dispatch setCurrentUser to the user.action which then triggers the user reducers and this eliminate the use of this.state from app.js
   setCurrentUser: user => dispatch(setCurrentUser(user))
