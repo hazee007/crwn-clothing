@@ -6,6 +6,10 @@
     .title {
       font-size: 28px;
       margin-bottom: 25px;
+      &:hover {
+        color: grey;
+        cursor: pointer;
+      }
     }
   
     .preview {
@@ -13,3 +17,6 @@
       justify-content: space-between;
     }
   }
+
+
+ 

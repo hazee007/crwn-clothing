@@ -1,11 +1,14 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import './collection-preview.style.scss'
 import CollectionItem from '../collection-item/collection-item.components';
 
-const CollectionPreview = ({title, items}) => (
+const CollectionPreview = ({title, items, match, routeName, history}) => (
       <div className='collection-preview'>
-          <h1 className='title'>{title.toUpperCase()}</h1>
+          <h1 className='title' onClick={() => history.push(`${match.path}/${routeName}`)}>
+            {title.toUpperCase()} </h1>
+          {/* <h1 className='title'>{title.toUpperCase()}</h1> */}
           <div className='preview'>
               {items
             //   filter is used to reduct the output of the item to 4.. and this method can cause performnce issue since it 
@@ -21,4 +24,4 @@ const CollectionPreview = ({title, items}) => (
       </div>
 );
 
-export default CollectionPreview;
+export default withRouter(CollectionPreview);

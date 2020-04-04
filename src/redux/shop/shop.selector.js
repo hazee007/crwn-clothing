@@ -10,7 +10,8 @@ export const selectShopCollections = createSelector(
 
 export const selectCollectionForPreview = createSelector(
     [selectShopCollections],
-    collections => Object.keys(collections).map(key => collections[key])
+    collections => collections ? Object.keys(collections).map(key => collections[key])
+    : []
 );
 
 export const selectCollection = collectionUrlPrams => createSelector(
@@ -19,6 +20,6 @@ export const selectCollection = collectionUrlPrams => createSelector(
     //     collection => collection.id === COLLECTION_ID_MAP[collectionUrlPrams]
     // )  Data normalization
 
-    collections => collections[collectionUrlPrams]
+    collections => (collections ? collections[collectionUrlPrams] : null)
 )
 
