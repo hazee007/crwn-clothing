@@ -23,3 +23,12 @@ export const selectCollection = collectionUrlPrams => createSelector(
     collections => (collections ? collections[collectionUrlPrams] : null)
 )
 
+export const selectIsCollectionFetching = createSelector(
+    [selectShop],
+    shop => shop.isFetching
+)
+
+export const selectIsCollectionsLoaded = createSelector(
+    [selectShop],
+    shop => !!shop.collections
+)

@@ -9,11 +9,10 @@ import CheckoutPage from './pages/checkout/checkout.components';
 
 
 import { Route, Switch, Redirect } from 'react-router-dom';
-import {auth, createUserProfileDocument} from './firebase/firebase.utils';
 import { connect } from 'react-redux';
-import {setCurrentUser} from './redux/user/user.actions'
 import {createStructuredSelector} from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selector';
+import { checkUserSection} from './redux/user/user.actions'
 
 
 
@@ -23,26 +22,9 @@ class App extends React.Component {
   unsubscribeFromAuth = null
 
   componentDidMount(){
+    const {checkUserSection} = this.props;
+    checkUserSection();
 
-    const {setCurrentUser} = this.props;
-
-    this.unsubscribeFromAuth = auth.onAuthStateChanged( async userAuth =>{
-      // getting data from firebase to add into our state
-      if(userAuth){
-        const userRef = await createUserProfileDocument(userAuth); //checking if there has been any user update in db 
-        
-        userRef.onSnapshot(snapShot =>{  //get data of either newly registerd user with already users in db
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          })
-        })
-      }
-       else{
-        setCurrentUser(userAuth)
-      }
-        
-    })
   }
   
   componentWillUnmount(){
@@ -55,7 +37,8 @@ class App extends React.Component {
         <Switch>
         <Route exact path='/' component={HomePage} />
         <Route  path='/shop' component={ShopPage} />
-        <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to ='/' />) : (<SignInAndSignUpPage />)} />  
+        <Route exact path='/signin' render={() => this.props.currentUser ?
+           (<Redirect to ='/' />) : (<SignInAndSignUpPage />)} />  
         {/* //base on currentUser go to sign up page or go to home page */}
         <Route  exact path='/checkout' component={CheckoutPage}/>
         </Switch>
@@ -68,8 +51,8 @@ const mapStateToProps = createStructuredSelector({
   currentUser:selectCurrentUser
 })                   //we get the state of the user to know if the user is logged in, if so we dont want them  to be able to access the singin page and also using reselect for optimization
 
-const mapDispatchToProps = dispatch =>({  //Dispatch setCurrentUser to the user.action which then triggers the user reducers and this eliminate the use of this.state from app.js
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+const mapDispatchToProps = dispatch =>({
+  checkUserSection : () => dispatch(checkUserSection())
 })
 
-export default connect(mapStateToProps , mapDispatchToProps) (App);
+export default connect(mapStateToProps, mapDispatchToProps) (App);
