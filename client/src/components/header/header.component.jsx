@@ -37,16 +37,8 @@ const Header = ({currentUser, hidden, signOutStart})=>(
     </div>
 );
 
-// const mapStateToProps = state =>({   //Making the reducer to upadate the header insteadnof the state in app.js
-//      currentUser: state.user.currentUser
-// })
 
-// const mapStateToProps = ({user:{currentUser}, cart:{hidden}}) =>({   //2nd getting the toggle state of cart from reducer by disctructuring
-//     currentUser,
-//     hidden
-// }); 
-
-const mapStateToProps = createStructuredSelector({   //3rd using reselector
+const mapStateToProps = createStructuredSelector({   
     currentUser: selectCurrentUser,
     hidden: selectCartHidden
 }); 

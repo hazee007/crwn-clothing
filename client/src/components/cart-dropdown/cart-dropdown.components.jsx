@@ -30,10 +30,6 @@ const CartDropDown = ({cartItems, history, dispatch}) => (
 )  
 
 
-// const mapStateToProps = ({cart: {cartItems}}) =>({
-//     cartItems
-// });  this is replaced with the new code so that our application do not rerender(reload) when a state change in the app that does not affect this particular state /// this is what selectors are for..
-
 const mapStateToProps = createStructuredSelector({
     cartItems : selectCartItems
 });

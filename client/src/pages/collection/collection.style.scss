@@ -19,3 +19,15 @@
     }
   }
   
+  @media only screen and (max-width: 800px) {
+    .collection-page{
+      align-items: center;
+      
+      .items{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 15px;
+      }
+    }
+    
+}

@@ -50,3 +50,38 @@
     }
   }
   
+
+  @media only screen and (max-width: 800px) {
+    .collection-item{
+      width: 40vw;
+
+      &:hover{
+        .image{
+          opacity:unset;
+        }
+        .custom-button{
+          opacity:unset;
+        }
+
+        .custom-button{
+          display: block;
+          opacity: 0.9;
+          min-width: unset;
+          padding: 0 10px;
+        }
+      }
+      
+      
+      .collection-footer{
+        width: 100%;
+        .name{
+          width: 80%;
+        }
+
+        .price{
+          width: 20%;
+        }
+      }
+    }
+    
+}
